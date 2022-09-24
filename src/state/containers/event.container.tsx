@@ -22,17 +22,8 @@ const mapDispatchToProps: IEventActions = {
   createEvent,
 };
 
-export interface IListProps extends IEventState, IEventActions { }
-
 export const withLists = () => (Component: React.ComponentType) => {
-  class EventContainer extends React.PureComponent<IListProps> {
-    constructor(props: IListProps) {
-      super(props);
-      if (props.events && props.events.length === 0) {
-        props.loadEvents();
-      }
-    }
-
+  class EventContainer extends React.PureComponent {
     public render() {
       return <Component {...this.props} />;
     }

@@ -18,13 +18,18 @@ interface IState {
 }
 
 class ShowTodos extends React.Component<IProps, IState> {
+    constructor(props: IProps) {
+        super(props)
+        this.props.loadEvents()
+    }
+
     state = {
         todoId: 0,
         createTodo: false,
     };
+
     public render() {
         const { events } = this.props;
-
 
         return (
             <div>
@@ -85,5 +90,5 @@ class ShowTodos extends React.Component<IProps, IState> {
 };
 
 export default compose<IProps, {}>(
-     withLists()
+    withLists()
 )(ShowTodos);

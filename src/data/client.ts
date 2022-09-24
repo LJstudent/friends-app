@@ -39,4 +39,20 @@ export class Client {
             })
         )
     }
+
+    public GetGenres() {
+        return ajax({
+            url: `${BASE_URL}/genre`,
+            headers: {
+                "Content-Type": "application/json"
+            },
+            // method
+            method: Method.GET,
+        }).pipe(
+            map((res: AjaxResponse) => {
+                return res.response;
+            })
+        )
+    }
+
 }

@@ -1,17 +1,16 @@
-import withTheme, { WithTheme } from '@material-ui/core/styles/withTheme';
-import styled from 'react-emotion';
+import { Grid } from '@mui/material';
+import { styled } from '@mui/material/styles';
+import withTheme, { WithTheme } from '@mui/styles/withTheme';
 import { compose } from 'recompose';
 
-
-
-const StyledMain = styled('main')(({ theme }: WithTheme) => ({
+const StyledMain = styled(Grid)(({ theme }: WithTheme) => ({
   padding: theme.spacing(2),
   marginTop: theme.spacing(8),
 
   '.todoItem': {
     boxShadow: '0 3px 10px rgb(0 0 0 / 0.2)',
     marginBottom: theme.spacing(2),
-    borderRadius: theme.spacing(2) 
+    borderRadius: theme.spacing(2)
   },
 
   '.todoItem:active': {
@@ -27,26 +26,32 @@ const StyledMain = styled('main')(({ theme }: WithTheme) => ({
     paddingTop: theme.spacing(3),
   },
 
-  '.checkBoxDate': {
-    display: 'flex'
-  },
-
-  '.priority': {
-    width: theme.spacing(15)
-  },
-
   '.tagItems': {
     marginTop: theme.spacing(2)
   },
-  
-  '.chipLabel': {
-    marginLeft: theme.spacing(2),
-    width: theme.spacing(10)
+
+  '.createGrid': {
+    marginTop: theme.spacing(2)
+  },
+
+  '.timePicker': {
+    marginLeft: theme.spacing(1)
+  },
+
+  '.select': {
+    marginTop: theme.spacing(2),
+    minWidth: 150,
+  },
+
+  '.multilineTextField': {
+    minWidth: 450
+  },
+
+  '.autoGrid': {
+    marginTop: theme.spacing(2)
   }
 }));
 
-
-
 export default compose<WithTheme, {}>(
   withTheme
-)(StyledMain);
+)(StyledMain as typeof Grid);
