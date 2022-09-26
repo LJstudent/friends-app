@@ -130,7 +130,7 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                         </div>
                         <FormControl className='createGrid' required variant="standard">
                             <InputLabel>City</InputLabel>
-                            <Input onChange={this.handleChangeTodoCity} value={this.state.activity} />
+                            <Input onChange={this.handleChangeTodoCity} value={this.state.city} />
                             <FormHelperText id="my-helper-text"> You will share the exact location later</FormHelperText>
                         </FormControl>
                         <div className='input'>
