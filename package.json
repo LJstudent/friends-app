@@ -46,7 +46,8 @@
     "typesafe-actions": "2.0.4",
     "typescript": "3.9.3",
     "uuid": "^8.3.2",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",
