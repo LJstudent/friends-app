@@ -1,4 +1,4 @@
-import { Autocomplete, Button, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import { Autocomplete, Box, Button, FormControl, FormHelperText, Input, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 import { DesktopDatePicker, TimePicker } from '@mui/x-date-pickers';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -14,6 +14,7 @@ interface IProps extends IEventState, IEventActions, IGenreState, IGenreActions 
 interface IState {
     activity: string;
     date: Date;
+    time: Date;
     level: string;
     city: string;
 }
@@ -28,6 +29,7 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
     state = {
         activity: "",
         date: new Date(),
+        time: new Date('2020-01-01 12:00'),
         level: "",
         city: ""
     };
@@ -36,7 +38,7 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
         const { genres } = this.props;
 
         return (
-            <div>
+            <Box component="form" noValidate onSubmit={this.handleSubmit}>
                 <div>
                     <FormControl required variant="standard">
                         <InputLabel>Todo title</InputLabel>
@@ -48,12 +50,13 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                         id="combo-box-demo"
                         options={genres}
                         getOptionLabel={(genre) => genre.genre}
-                        renderInput={(params) => <TextField required {...params} style={{ width: 300 }} label="Combo box" variant="outlined" />}
+                        renderInput={(params) => <TextField required {...params} style={{ width: 300 }} label="Activity" variant="outlined" />}
                     />
                 </div>
                 <div className='createGrid'>
                     <LocalizationProvider dateAdapter={AdapterDateFns}>
                         <DesktopDatePicker
+                            inputFormat="dd/MM/yyyy"
                             disablePast={true}
                             label="Date desktop"
                             value={this.state.date}
@@ -65,8 +68,8 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                             minutesStep={15}
                             className='timePicker'
                             label="Time"
-                            value={this.state.date}
-                            onChange={this.handleChangeDate}
+                            value={this.state.time}
+                            onChange={this.handleChangeTime}
                             renderInput={(params) => <TextField {...params} />}
                         />
                     </LocalizationProvider>
@@ -107,11 +110,10 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                         variant="contained"
                         type="submit"
                         size="small"
-                        onClick={this.handleSubmit.bind(this)}
                     >Add todo
                     </Button>
                 </div>
-            </div>
+            </Box>
         )
     };
 
@@ -141,15 +143,23 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
         }
     };
 
-    handleSubmit = () => {
-        const event: IEvent = {
-            id: 0,
-            activity: this.state.activity,
-            date: this.state.date
-        };
-        this.props.createEvent(event);
+    handleChangeTime = (time: Date | null) => {
+        if (time !== null) {
+            this.setState({
+                time: time
+            });
+        }
+    };
 
-        this.props.setCreateTodo(false);
+    handleSubmit = () => {
+        // const event: IEvent = {
+        //     id: 0,
+        //     activity: this.state.activity,
+        //     date: this.state.date
+        // };
+        // this.props.createEvent(event);
+
+        // this.props.setCreateTodo(false);
     };
 };
 
