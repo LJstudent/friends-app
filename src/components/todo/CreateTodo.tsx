@@ -65,7 +65,7 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                     errors,
                     handleSubmit
                 }) => {
-                    const errorTitle = errors.todoTitle === undefined ? false : true
+                    const errorTitle = errors.todoTitle === undefined ? false : true;
 
                     return (
                         <Box component="form" noValidate onSubmit={handleSubmit}>
