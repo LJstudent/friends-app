@@ -37,13 +37,13 @@ class ShowTodos extends React.Component<IProps, IState> {
                     {events
                         .map(event => {
                             return (
-                                <ListItem className='todoItem' key={event.id} button role={undefined} onClick={this.handleClick.bind(this, event.id)}>
+                                <ListItem className="todoItem" key={event.id} button role={undefined} onClick={this.handleClick.bind(this, event.id)}>
                                     <Checkbox
                                         edge="start"
                                         tabIndex={-1}
                                         disableRipple
                                     />
-                                    <ListItemText className='todoText' primary={event.activity} />
+                                    <ListItemText className="todoText" primary={event.activity} />
                                 </ListItem>
                             )
                         })}
@@ -60,12 +60,12 @@ class ShowTodos extends React.Component<IProps, IState> {
                     }
                 </IconButton>
                 <IconButton>
-                    <Tooltip title='Edit'>
+                    <Tooltip title="Edit">
                         <EditIcon />
                     </Tooltip>
                 </IconButton>
                 <IconButton>
-                    <Tooltip title='Delete'>
+                    <Tooltip title="Delete">
                         <DeleteIcon />
                     </Tooltip>
                 </IconButton>

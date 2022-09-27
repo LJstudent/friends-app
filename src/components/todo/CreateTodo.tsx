@@ -13,7 +13,6 @@ import { IGenreActions, IGenreState, withGenres } from '../../state/containers/g
 interface IProps extends IEventState, IEventActions, IGenreState, IGenreActions { }
 
 interface IState {
-    date: Date;
     time: Date;
     level: string;
     city: string;
@@ -27,12 +26,12 @@ interface IInnerProps extends IOuterProps, IProps { }
 
 interface IFormInputs {
     todoTitle: string;
+    date: Date;
 }
 
 class CreateEvent extends React.Component<IInnerProps, IState> {
     state = {
-        date: new Date(),
-        time: new Date('2020-01-01 12:00'),
+        time: new Date("2020-01-01 12:00"),
         level: "",
         city: ""
     };
@@ -43,12 +42,14 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
         const validationSchema = yup.object({
             todoTitle: yup
                 .string()
-                .required('Todo title is required')
+                .required("Todo title is required"),
+
         });
 
         const formikProps = {
             initialValues: {
-                todoTitle: '',
+                todoTitle: "",
+                date: new Date(),
             },
             validationSchema: validationSchema,
             onSubmit: (values: IFormInputs) => {
@@ -63,7 +64,8 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                     values,
                     handleChange,
                     errors,
-                    handleSubmit
+                    handleSubmit,
+                    setFieldValue
                 }) => {
                     const errorTitle = errors.todoTitle === undefined ? false : true;
 
@@ -72,11 +74,11 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                             <div>
                                 <FormControl required variant="standard">
                                     <InputLabel error={errorTitle}>Todo title</InputLabel>
-                                    <Input onChange={handleChange('todoTitle')} value={values.todoTitle} />
+                                    <Input onChange={handleChange("todoTitle")} value={values.todoTitle} />
                                     {errorTitle ? <FormHelperText error>{errors.todoTitle}</FormHelperText> : null}
                                 </FormControl>
                             </div>
-                            <div className='autoGrid'>
+                            <div className="autoGrid">
                                 <Autocomplete
                                     id="combo-box-demo"
                                     options={genres}
@@ -90,14 +92,16 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                                         inputFormat="dd/MM/yyyy"
                                         disablePast={true}
                                         label="Date desktop"
-                                        value={this.state.date}
-                                        onChange={this.handleChangeDate}
+                                        value={values.date}
+                                        onChange={(value): void => {
+                                            setFieldValue("date", value);
+                                        }}
                                         renderInput={(params) => <TextField {...params} />}
                                     />
                                     <TimePicker
                                         ampm={false}
                                         minutesStep={15}
-                                        className='timePicker'
+                                        className="timePicker"
                                         label="Time"
                                         value={this.state.time}
                                         onChange={this.handleChangeTime}
@@ -106,7 +110,7 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                                 </LocalizationProvider>
 
                             </div>
-                            <FormControl className='select'>
+                            <FormControl className="select">
                                 <InputLabel required id="demo-simple-select-label">Expercience</InputLabel>
                                 <Select
                                     labelId="demo-simple-select-label"
@@ -120,17 +124,17 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                                     <MenuItem value={30}>Expert</MenuItem>
                                 </Select>
                             </FormControl>
-                            <div className='createGrid'>
+                            <div className="createGrid">
                                 <TextField
                                     id="standard-multiline-static"
                                     label="Add more info about your expercience"
                                     multiline
                                     rows={4}
-                                    placeholder='Share your stats for example 120 kg bench press so your potential trainingbuddy know what he has to beat'
-                                    className='multilineTextField'
+                                    placeholder="Share your stats for example 120 kg bench press so your potential trainingbuddy know what he has to beat"
+                                    className="multilineTextField"
                                 />
                             </div>
-                            <FormControl className='createGrid' required variant="standard">
+                            <FormControl className="createGrid" required variant="standard">
                                 <InputLabel>City</InputLabel>
                                 <Input onChange={this.handleChangeTodoCity} value={this.state.city} />
                                 <FormHelperText id="my-helper-text"> You will share the exact location later</FormHelperText>
@@ -161,14 +165,6 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
         this.setState({
             city: e.target.value
         });
-    };
-
-    handleChangeDate = (date: Date | null) => {
-        if (date !== null) {
-            this.setState({
-                date: date
-            });
-        }
     };
 
     handleChangeTime = (time: Date | null) => {

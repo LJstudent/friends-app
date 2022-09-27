@@ -26,16 +26,16 @@ class ShowCardTodo extends React.Component<IInnerProps, IState> {
                         return (
                             <Card raised>
                                 <CardContent>
-                                    <Typography variant='h5' component='div'>
+                                    <Typography variant="h5" component="div">
                                         {event.activity}
                                     </Typography>
                                     <Typography gutterBottom>
                                         {event.date}
                                     </Typography>
                                     <Divider />
-                                    <Typography className='tagItems' variant='body2'>
-                                        <Chip variant='outlined' className='chipLabel' label='tag' />
-                                        <Chip variant='outlined' className='chipLabel' label='tag' />
+                                    <Typography className="tagItems" variant="body2">
+                                        <Chip variant="outlined" className="chipLabel" label="tag" />
+                                        <Chip variant="outlined" className="chipLabel" label="tag" />
                                     </Typography>
                                 </CardContent>
                             </Card>

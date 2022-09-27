@@ -25,7 +25,7 @@ class ShowGenres extends React.Component<IProps, IState> {
 
         return (
             <div>
-                <Typography className='tagItems' variant='body2'>
+                <Typography className="tagItems" variant="body2">
                     {genres
                         .map(genre => {
                             return (
