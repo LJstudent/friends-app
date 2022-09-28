@@ -27,6 +27,7 @@ interface IInnerProps extends IOuterProps, IProps { }
 interface IFormInputs {
     todoTitle: string;
     date: Date;
+    genreId: number;
 }
 
 class CreateEvent extends React.Component<IInnerProps, IState> {
@@ -43,6 +44,14 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
             todoTitle: yup
                 .string()
                 .required("Todo title is required"),
+            date: yup
+                .date()
+                .required("Date is required")
+                .nullable().typeError("Invalid Date"),
+            genreId: yup
+                .number()
+                .required("Genre is required")
+                .positive("Genre is required")
 
         });
 
@@ -50,6 +59,7 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
             initialValues: {
                 todoTitle: "",
                 date: new Date(),
+                genreId: -1,
             },
             validationSchema: validationSchema,
             onSubmit: (values: IFormInputs) => {
@@ -65,9 +75,11 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                     handleChange,
                     errors,
                     handleSubmit,
-                    setFieldValue
+                    setFieldValue,
                 }) => {
-                    const errorTitle = errors.todoTitle === undefined ? false : true;
+                    const errorTitle = Boolean(errors.todoTitle);
+                    const genreTitle = Boolean(errors.genreId);
+                    const dateTitle = Boolean(errors.date);
 
                     return (
                         <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -79,36 +91,39 @@ class CreateEvent extends React.Component<IInnerProps, IState> {
                                 </FormControl>
                             </div>
                             <div className="autoGrid">
-                                <Autocomplete
-                                    id="combo-box-demo"
-                                    options={genres}
-                                    getOptionLabel={(genre) => genre.genre}
-                                    renderInput={(params) => <TextField required {...params} style={{ width: 300 }} label="Activity" variant="outlined" />}
-                                />
+                                <FormControl required variant="standard">
+                                    <Autocomplete
+                                        onChange={(e, value) => setFieldValue("genreId", value?.id)}
+                                        options={genres}
+                                        getOptionLabel={(genre) => genre.genre}
+                                        renderInput={(params) => <TextField error={genreTitle} required {...params} style={{ width: 300 }} label="Activity" variant="outlined" />}
+                                    />
+                                    {genreTitle ? <FormHelperText error>{errors.genreId}</FormHelperText> : null}
+                                </FormControl>
                             </div>
                             <div className='createGrid'>
-                                <LocalizationProvider dateAdapter={AdapterDateFns}>
-                                    <DesktopDatePicker
-                                        inputFormat="dd/MM/yyyy"
-                                        disablePast={true}
-                                        label="Date desktop"
-                                        value={values.date}
-                                        onChange={(value): void => {
-                                            setFieldValue("date", value);
-                                        }}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                    <TimePicker
-                                        ampm={false}
-                                        minutesStep={15}
-                                        className="timePicker"
-                                        label="Time"
-                                        value={this.state.time}
-                                        onChange={this.handleChangeTime}
-                                        renderInput={(params) => <TextField {...params} />}
-                                    />
-                                </LocalizationProvider>
-
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DesktopDatePicker
+                                            inputFormat="dd/MM/yyyy"
+                                            disablePast={true}
+                                            label="Date desktop"
+                                            value={values.date}
+                                            onChange={(value): void => {
+                                                setFieldValue("date", value);
+                                            }}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                        <TimePicker
+                                            ampm={false}
+                                            minutesStep={15}
+                                            className="timePicker"
+                                            label="Time"
+                                            value={this.state.time}
+                                            onChange={this.handleChangeTime}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
+                                    {dateTitle ? <FormHelperText error>{errors.date}</FormHelperText> : null}
                             </div>
                             <FormControl className="select">
                                 <InputLabel required id="demo-simple-select-label">Expercience</InputLabel>
